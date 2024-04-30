@@ -10,9 +10,10 @@ public:
 		m_batu = RectF{ windowPos + Vec2(windowSize.x - batuSize,0),batuSize };
 		m_startTime = startTime;
 	}
-
+	
 	//行動(ここに広告の動きを記述してもらう)
 	void act()override {
+		
 	}
 
 private:
