@@ -6,7 +6,8 @@
 class WindowMoveAround : public BaseWindow {
 public:
 	//コンストラクタ
-	WindowMoveAround(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime) {
+	WindowMoveAround(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime)
+	{
 		m_window = RectF{ windowPos,windowSize };
 		m_batu = RectF{ windowPos + Vec2(windowSize.x - batuSize,0),batuSize };
 		m_startTime = startTime;
