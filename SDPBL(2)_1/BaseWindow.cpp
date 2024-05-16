@@ -53,11 +53,6 @@ void BaseWindow::update(double dt) {
 }
 
 void BaseWindow::draw() {
-	//通常
-	//scaled(0.5).drawAt(Scene::Size().x/2,Scene::Size().y/2);
-	//拡大
-	//scaled(0.742).drawAt(Scene::Size().x/2,Scene::Size().y/2+98);
-	//debug.scaled(0.742).drawAt(Scene::Size().x / 2, Scene::Size().y / 2 + 98);
 	if (m_startTime < m_time.sF()) {
 
 		switch (kind) {

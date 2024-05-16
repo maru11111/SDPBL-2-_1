@@ -4,6 +4,10 @@
 
 void Main()
 {
+	TextureAsset::Register(U"BackGround", U"image/haikei.png");
+
+	FontAsset::Register(U"CountDown", 100, U"font/keifont.ttf");
+
 	App manager;
 	manager.add<Title>(State::Title);
 	manager.add<Game>(State::Game);
