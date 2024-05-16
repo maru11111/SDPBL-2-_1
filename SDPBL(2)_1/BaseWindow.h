@@ -2,8 +2,7 @@
 class BaseWindow {
 public:
 	//コンストラクタ
-	BaseWindow() {
-	}
+	BaseWindow(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime);
 
 	enum class AdKind{
 		Anna,
@@ -18,96 +17,32 @@ public:
 	};
 
 	//ストップウォッチを開始する
-	static void timeStart() {
-		m_time.start();
-	}
+	static void timeStart();
 
 	//仮想関数
 	virtual void act() = 0;
 
-	//右を向いているか
-	void isRight() {
-		if (0 <= m_vel.x)m_right = true;
-		else m_right = false;
-	}
-	void isDown() {
-		if (0 <= m_vel.y)m_down = true;
-		else m_right = false;
-	}
-
 	//広告を動かす関数
-	void move(double dt) {
-		m_window.pos += m_vel * dt;
-		m_batu.pos += m_vel * dt;
-	}
+	void move(double dt);
 
 	//バツ印がクリックされたかどうか
-	void isClick() {
-		if (m_batu.leftClicked()) {
-			m_beClick = true;
-		}
-		else {
-			m_beClick = false;
-		}
-	}
+	void isClick();
 
 	//広告がクリックされたかどうか
-	void isClickAd() {
-		if (m_window.leftClicked()) {
-			m_beClickAd = true;
-		}
-		else {
-			m_beClickAd = false;
-		}
-	}
+	void isClickAd();
 
 	//広告がクリックされたかどうかを返す
-	bool getIsClick() {
-		return m_beClick;
-	}
+	bool getIsClick();
 
 	//広告を踏んでしまった時の動作
-	void actAdClick() {
-
-	}
-
-	////拡大した時のバツ印のずれを修正する関数
-	//void setBatuPos() {
-	//	if (m_size != 1) {
-	//		m_batu = RectF{ (m_window.pos + Vec2(m_window.w * m_size - m_batu.w * m_size*m_size , -m_batu.w*m_size)) ,m_batu.w};
-	//	}
-	//}
+	void actAdClick();
 
 	//更新
-	void update(double dt) {
-		ClearPrint();
-		if (m_startTime < m_time.sF()) {
-			isClick();
-			act();
-			move(dt);
-			//setBatuPos();
-		}
-		Print << m_time;
-	}
+	void update(double dt);
 
-	
 	//描画
-	void draw() {
-		debug.scaled(0.742).drawAt(800/2,600/2+98);
-		if (m_startTime < m_time.sF()) {
-			switch (kind) {
-			case AdKind::Christmas:
-				m_window.scaled(m_size)(v).draw(ColorF{ 1,1,1,m_opacity });
-				break;
-			case AdKind::Anna:
-				m_window.scaled(m_size).draw(ColorF{ 1,1,1,m_opacity });
-				break;
-			default:
-				break;
-			}
-			m_batu.scaled(m_size).draw(ColorF{1,0,0,m_opacity});
-		}
-	}
+	void draw();
+
 protected:
 	//広告の図形
 	RectF m_window, m_batu;
@@ -140,4 +75,3 @@ protected:
 	VideoTexture v{ U"SDPBL(2).mp4" };
 	Texture debug{ U"image/haikei.png" };
 };
-Stopwatch BaseWindow::m_time;

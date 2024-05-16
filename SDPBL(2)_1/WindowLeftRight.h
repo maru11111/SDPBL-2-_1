@@ -6,11 +6,9 @@
 class WindowLeftRight :public BaseWindow {
 public:
 	//コンストラクタ
-	WindowLeftRight(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime) {
-		m_window = RectF{ windowPos,windowSize };
-		m_batu = RectF{ windowPos + Vec2(windowSize.x - batuSize,0),batuSize };
-		m_startTime = startTime;
-	}
+	WindowLeftRight(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime)
+		: BaseWindow(windowPos, windowSize, batuSize, startTime)
+	{}
 
 	//行動
 	void act() override {
