@@ -2,7 +2,7 @@
 
 #include "Common.h"
 
-class Title:public App::Scene
+class Title :public App::Scene
 {
 public:
 	Title(const InitData& init);
@@ -10,5 +10,5 @@ public:
 	void draw() const override;
 
 private:
+	Array<RectF>button;
 };
-
