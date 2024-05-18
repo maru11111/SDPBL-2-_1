@@ -8,6 +8,18 @@ enum class State
 	Game,
 };
 
+enum class AdKind {
+	Anna,
+	Azarashi,
+	BatuDarake,
+	Building,
+	Car,
+	Christmas,
+	Hair,
+	MatchingApp,
+	QuickCatch
+};
+
 // 共有するデータ
 struct GameData
 {
