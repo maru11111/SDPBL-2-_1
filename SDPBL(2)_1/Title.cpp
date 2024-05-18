@@ -13,7 +13,7 @@ Title::Title(const InitData& init)
 void Title::update() {
 
 	if (KeyEnter.down()) {
-		changeScene(State::Game, 0s);
+		changeScene(State::Game, 0.5s);
 	}
 }
 
@@ -28,5 +28,7 @@ void Title::draw()const {
 		Print << b.x;
 		b.draw();
 	}
+
+
 
 }
