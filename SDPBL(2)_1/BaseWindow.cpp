@@ -10,10 +10,6 @@ void BaseWindow::timeStart() {
 	m_time.start();
 }
 
-void BaseWindow::timeStop() {
-	m_time.pause();
-}
-
 void BaseWindow::move(double dt) {
 	m_window.pos += m_vel * dt;
 	m_batu.pos += m_vel * dt;
@@ -22,7 +18,6 @@ void BaseWindow::move(double dt) {
 void BaseWindow::isClick() {
 	if (m_batu.leftClicked()) {
 		m_beClick = true;
-		m_AllBatuNotClicked = false;
 	}
 	else {
 		m_beClick = false;
@@ -30,7 +25,7 @@ void BaseWindow::isClick() {
 }
 
 void BaseWindow::isClickAd() {
-	if (m_window.leftClicked() && !m_beClick && m_AllBatuNotClicked) {
+	if (m_window.leftClicked()) {
 		m_beClickAd = true;
 	}
 	else {
@@ -38,20 +33,8 @@ void BaseWindow::isClickAd() {
 	}
 }
 
-bool BaseWindow::getIsClicked() {
+bool BaseWindow::getIsClick() {
 	return m_beClick;
-}
-
-bool BaseWindow::getIsClickedAd() {
-	return m_beClickAd;
-}
-
-bool BaseWindow::getIsNotAllClicked() {
-	return m_AllBatuNotClicked;
-}
-
-void BaseWindow::SetNotAllClicked() {
-	m_AllBatuNotClicked = true;
 }
 
 void BaseWindow::actAdClick() {
@@ -61,14 +44,10 @@ void BaseWindow::actAdClick() {
 void BaseWindow::update(double dt) {
 	ClearPrint();
 	if (m_startTime < m_time.sF()) {
-		
 		isClick();
-		isClickAd();
 		act();
 		move(dt);
-		
 	}
-	Print << m_AllBatuNotClicked;
 	Print << m_time;
 
 }
@@ -93,4 +72,3 @@ void BaseWindow::draw() {
 }
 
 Stopwatch BaseWindow::m_time;
-bool BaseWindow::m_AllBatuNotClicked = true;
