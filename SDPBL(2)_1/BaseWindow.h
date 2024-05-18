@@ -1,25 +1,17 @@
 ﻿#pragma once
+#include "Common.h"
+
 class BaseWindow {
 public:
 	//コンストラクタ
 	BaseWindow(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime);
 
-	enum class AdKind {
-		Anna,
-		Azarashi,
-		Building,
-		Car,
-		MatchingApp,
-		BatuDarake,
-		Christmas,
-		Hair,
-		QuickCatch
-	};
-
 	//ストップウォッチを開始する
 	static void timeStart();
 	//ストップウォッチを停止する
 	static void timeStop();
+	//ストップウォッチをリセット
+	static void timeReset();
 
 	//仮想関数
 	virtual void act() = 0;
@@ -49,11 +41,20 @@ public:
 	//広告を踏んでしまった時の動作
 	void actAdClick();
 
+	//ポップする広告を設定
+	void setPopKind();
+
 	//更新
 	void update(double dt);
 
 	//描画
 	void draw();
+
+	//ポップする広告の描画
+	static void drawPop(double dt);
+
+	//getkindPop
+	static AdKind getKindPop();
 
 protected:
 	//広告の図形
@@ -83,10 +84,15 @@ protected:
 	//スイッチ
 	int m_flagS = 0;
 	//広告の種類
-	AdKind kind = (AdKind)Random(0, 1);
-
+	AdKind kind = (AdKind)Random(1,8);
+	//踏んでしまった広告の種類
+	static AdKind kindPop;
+	//踏んでしまった広告の不透明度
+	static double m_opacityP;
 	//画像ファイル
 	Texture s{ U"setagayacampus_05.jpg" };
 	VideoTexture v{ U"SDPBL(2).mp4" };
+	VideoTexture christmas{ U"image/christmas.mp4" };
 	Texture debug{ U"image/haikei.png" };
+
 };
