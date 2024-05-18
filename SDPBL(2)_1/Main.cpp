@@ -21,11 +21,15 @@ void Main()
 	FontAsset::Register(U"Skip", 50, U"font/keifont.ttf");
 	FontAsset::Register(U"GameOver", 100, U"font/keifont.ttf");
 	FontAsset::Register(U"Num",50, U"font/keifont.ttf");
+	FontAsset::Register(U"Clear", 100, U"font/keifont.ttf");
 
 	AudioAsset::Register(U"CountDown", U"audio/ピッピッピー.wav");
 	AudioAsset::Register(U"PlayBGM", U"audio/大慌て.mp3", Loop::Yes);
 	AudioAsset::Register(U"Hit", U"audio/damage.mp3");
 	AudioAsset::Register(U"GameOver", U"audio/GameOver.wav");
+	AudioAsset::Register(U"BatuClick", U"audio/8bit獲得1.mp3");
+	AudioAsset::Register(U"BatuClickLast", U"audio/8bit獲得6.mp3");
+	AudioAsset::Register(U"Clear", U"audio/ジャジャーン3.mp3");
 
 	App manager;
 	manager.add<Title>(State::Title);
