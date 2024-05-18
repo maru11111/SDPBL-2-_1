@@ -13,6 +13,7 @@ class Game : public App::Scene
 {
 public:
 	Game(const InitData& init);
+	~Game();
 	void update() override;
 	void draw() const override;
 	void add(MoveKind k, int time);
@@ -26,7 +27,7 @@ private:
 	bool flagS = false;
 	//カウントダウン開始時の処理をするためのフラグ
 	bool flagC = false;
-	//開始演出の時間
+	//演出用のタイマー
 	Stopwatch stopwatch;
 	//背景サイズ
 	double scale = 0.5;
@@ -52,7 +53,23 @@ private:
 	int time = 0;
 	//バツがクリックされていないかどうか
 	bool batuNotClicked = true;
-
-
+	//Hitを一度だけ鳴らすための変数
+	bool flagHit=false;
+	//動画(よくない
+	VideoTexture christmas{ U"image/christmas.mp4" };
+	//広告をスキップ図形
+	RectF rect{ Scene::Size().x,Scene::Size().y-114,300,70 };
+	//広告をスキップ用stopwatch
+	Stopwatch stopwatchSkip;
+	//広告をスキップ用stopwatch起動用flag
+	bool flagSkip=false;
+	//ゲームオーバー不透明度
+	double opacityG=0;
+	//
+	Vec2 posFontGameOver;
+	//広告の数
+	int numAd=15;
+	//削除した広告の数
+	int numClickAd = 0;
 
 };
