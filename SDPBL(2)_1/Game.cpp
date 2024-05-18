@@ -29,7 +29,7 @@ Game::Game(const InitData& init)
 			1,
 		});
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < numAd; i++) {
 			KindM = DiscreteSample(options, distribution);
 			time = 0 + i * 3;
 			add(KindM, time);
@@ -45,13 +45,18 @@ Game::Game(const InitData& init)
 	//windows << std::make_unique<WindowXXX>(Vec2{ 20, 20 }, Vec2{ 200, 200 }, 10, 0);
 	//windows << std::make_unique<WindowXXX>(Vec2{ 120, 20 }, Vec2{ 200, 200 }, 10, 3);
 	//windows << std::make_unique<WindowXXX>(Vec2{ 220, 20 }, Vec2{ 200, 200 }, 10, 6);
-	stopwatch.start();
+	//stopwatch.start();
+}
+
+Game::~Game() {
+	BaseWindow::timeReset();
 }
 
 void Game::update() {
+	ClearPrint();
 
 	if (flagDoneMove == false) {
-		Print << pos;
+		//Print << pos;
 		// 移動の割合 0.0～1.0
 		t = Min(stopwatch.sF() * 0.5, 1.0);
 
@@ -105,11 +110,63 @@ void Game::update() {
 	if (flagEnd) {
 		AudioAsset(U"PlayBGM").stop();
 		BaseWindow::timeStop();
+		if (flagHit == false) {
+			AudioAsset(U"Hit").play();
+			flagHit = true;
+			stopwatch.restart();
+			fromP = rect.pos;
+			toP = rect.pos + Vec2(-rect.w, 0);
+			fromS = Scene::Center() + Vec2(0, -200 - FontAsset(U"GameOver").fontSize());
+			toS = Scene::Center() + Vec2(0, -200);
+		}
+		if (2 < stopwatch.sF()) {
+			opacityG += 0.8 * Scene::DeltaTime();
 
+			// 移動の割合 0.0～1.0
+			t = Min((stopwatch.sF()-2) * 0.34, 1.0);
+
+			// イージング関数を適用
+			e = EaseOutCubic(t);
+
+			// スタート位置からゴール位置へ e の割合だけ進んだ位置
+			posFontGameOver = fromS.lerp(toS, e);
+
+		}
+		if (4 < stopwatch.sF()) {
+			//rect.x -= 1 * Scene::DeltaTime();
+			//Print << rect.pos;
+
+			if (flagSkip == false) {
+				stopwatchSkip.start();
+				flagSkip = true;
+			}
+
+			// 移動の割合 0.0～1.0
+			t = Min(stopwatchSkip.sF() * 0.5, 1.0);
+
+			// イージング関数を適用
+			e = EaseOutCubic(t);
+
+			// スタート位置からゴール位置へ e の割合だけ進んだ位置
+			rect.pos = fromP.lerp(toP, e);
+
+			if (rect.leftClicked()) {
+				changeScene(State::Title);
+			}
+		}
 	}
 
+	//削除数をカウント
+	for (auto& w : windows) { if (w->getIsClicked())numClickAd++; }
 	//要素の削除&メモリの解放
 	windows.remove_if([](const auto& w) {return w->getIsClicked(); });
+
+	//クリア時
+	if (numClickAd == numAd) {
+		if (flagHit == false) {
+			flagHit = true;
+		}
+	}
 }
 
 void Game::add(MoveKind k, int time) {
@@ -150,10 +207,30 @@ void Game::draw() const {
 		}
 	}
 
-
+	//Print << flagStart;
 	if (flagStart) {
 		for (const auto& w : windows) {
 			w->draw();
 		}
 	}
+
+	//ゲームオーバー時
+	if (flagEnd&&flagHit) {
+		if (2 < stopwatch.sF()) {
+			BaseWindow::drawPop(Scene::DeltaTime());
+			if (BaseWindow::getKindPop() == AdKind::Christmas) {
+				christmas.advance();
+				christmas.scaled(0.405).drawAt(Scene::Center() + Vec2(0, 34), ColorF(1, 1, 1,1));
+			}
+
+			FontAsset(U"GameOver")(U"ゲームオーバー").drawAt(posFontGameOver, ColorF(0, 0, 0, opacityG));
+
+		}
+		if (4.5 < stopwatch.sF()) {
+			rect.draw(ColorF(0, 0, 0, 0.5));
+			FontAsset(U"Skip")(U"タイトルへ▶|").drawAt(rect.x+rect.w/2, rect.y+rect.h/2);
+		}
+	}
+
+	FontAsset(U"Num")(U"💥: ",numClickAd, U"/",numAd).draw(10,10,ColorF(0,0,0));
 }
