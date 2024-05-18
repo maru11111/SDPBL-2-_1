@@ -83,7 +83,7 @@ void Game::update() {
 		BaseWindow::timeStart();
 	}
 
-	if (3.3 < stopwatch.sF() && !flagEnd) {
+	if (3.3 < stopwatch.sF() && !flagEnd && !flagClear) {
 		AudioAsset(U"PlayBGM").setVolume(0.7).play();
 	}
 
@@ -142,17 +142,66 @@ void Game::update() {
 		}
 	}
 
-	//削除数をカウント
-	for (auto& w : windows) { if (w->getIsClicked())numClickAd++; }
+	for (auto& w : windows) {
+		if (w->getIsClicked()){
+		// 削除数をカウント
+			numClickAd++;
+		//バツをクリックしたときの音
+			if (numClickAd != 2) {
+				AudioAsset(U"BatuClick").setVolume(0.5).play();
+			}
+			else {
+				AudioAsset(U"BatuClickLast").setVolume(0.5).play();
+			}
+	}
+
+	}
 	//要素の削除&メモリの解放
 	windows.remove_if([](const auto& w) {return w->getIsClicked(); });
 
 	//クリア時
-	//if (numClickAd == numAd) {
-	//	if (flagHit == false) {
-	//		flagHit = true;
-	//	}
-	//}
+	if (numClickAd == 2 /*numAd*/) {
+		if (flagHit == false) {
+			AudioAsset(U"PlayBGM").stop();
+			stopwatch.restart();
+			flagClear = true;
+			fromS = Scene::Center() + Vec2(0, -200 - FontAsset(U"Clear").fontSize());
+			toS = Scene::Center() + Vec2(0, -100);
+			fromP = rect.pos;
+			toP = rect.pos + Vec2(-rect.w, 0);
+			flagHit = true;
+		}
+
+		if (1.5 < stopwatch.sF()) {
+			if (!flag1) {
+				AudioAsset(U"Clear").play();
+				flag1 = true;
+			}
+			opacityG += 0.8 * Scene::DeltaTime();
+
+			// 移動の割合 0.0～1.0
+			t = Min((stopwatch.sF() - 1.5) * 0.34, 1.0);
+
+			// イージング関数を適用
+			e = EaseOutCubic(t);
+
+			// スタート位置からゴール位置へ e の割合だけ進んだ位置
+			posFontGameOver = fromS.lerp(toS, e);
+
+			// 移動の割合 0.0～1.0
+			t = Min((stopwatch.sF() - 3.5) * 0.34, 1.0);
+
+			// イージング関数を適用
+			e = EaseOutCubic(t);
+
+			// スタート位置からゴール位置へ e の割合だけ進んだ位置
+			rect.pos = fromP.lerp(toP, e);
+
+			if (rect.leftClicked()) {
+				changeScene(State::Title);
+			}
+		}
+	}
 }
 
 void Game::add(MoveKind k, int time) {
@@ -217,6 +266,14 @@ void Game::draw() const {
 		}else{
 			rect.draw(ColorF(0, 0, 0, 0.5));
 			FontAsset(U"Skip")(U"タイトルへ▶|").drawAt(rect.x+rect.w/2, rect.y+rect.h/2);
+		}
+	}
+	//クリア時
+	if (numClickAd == 2 /*numAd*/) {
+		if (1.5 < stopwatch.sF()) {
+			FontAsset(U"Clear")(U"クリア").drawAt(posFontGameOver, ColorF(0, 0, 0, opacityG));
+			rect.draw(ColorF(0, 0, 0, 0.5));
+			FontAsset(U"Skip")(U"タイトルへ▶|").drawAt(rect.x + rect.w / 2, rect.y + rect.h / 2);
 		}
 	}
 

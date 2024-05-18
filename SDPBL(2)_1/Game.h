@@ -71,5 +71,8 @@ private:
 	int numAd=15;
 	//削除した広告の数
 	int numClickAd = 0;
-
+	//クリアしたか
+	bool flagClear = false;
+	//
+	bool flag1=false;
 };
