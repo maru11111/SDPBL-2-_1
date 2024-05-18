@@ -18,6 +18,8 @@ public:
 
 	//ストップウォッチを開始する
 	static void timeStart();
+	//ストップウォッチを停止する
+	static void timeStop();
 
 	//仮想関数
 	virtual void act() = 0;
@@ -25,14 +27,24 @@ public:
 	//広告を動かす関数
 	void move(double dt);
 
-	//バツ印がクリックされたかどうか
+	//バツ印がクリックされたかどうか判定
 	void isClick();
 
-	//広告がクリックされたかどうか
+	
+	//広告がクリックされたかどうか判定
 	void isClickAd();
 
-	//広告がクリックされたかどうかを返す
-	bool getIsClick();
+	//バツがクリックされたかどうかを返す
+	bool getIsClicked();
+
+	//広告本体がクリックされたかどうかを返す
+	bool getIsClickedAd();
+
+	//m_AllBatuNotClickedを渡す
+	static bool getIsNotAllClicked();
+
+	//m_AllBatuNotClickedをセット
+	static void SetNotAllClicked();
 
 	//広告を踏んでしまった時の動作
 	void actAdClick();
@@ -54,6 +66,8 @@ protected:
 	double m_opacity = 1;
 	//バツ印がクリックされたかどうか
 	bool m_beClick = false;
+	//インスタンス内でバツ印がクリックされたものがないかどうか
+	static bool m_AllBatuNotClicked;
 	//広告がクリックされたかどうか
 	bool m_beClickAd = false;
 	//経過時間
@@ -70,6 +84,7 @@ protected:
 	int m_flagS = 0;
 	//広告の種類
 	AdKind kind = (AdKind)Random(0,1);
+	
 	//画像ファイル
 	Texture s{ U"setagayacampus_05.jpg" };
 	VideoTexture v{ U"SDPBL(2).mp4" };

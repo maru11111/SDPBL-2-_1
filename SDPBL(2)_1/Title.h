@@ -10,5 +10,6 @@ public:
 	void draw() const override;
 
 private:
+	Array<RectF>button;
 };
 
