@@ -1,13 +1,46 @@
-﻿#include "stdafx.h"
-#include "Game.h"
+﻿#include "Game.h"
 
 Game::Game(const InitData& init)
-	: IScene{init}
+	: IScene{ init }
 {
+	switch (getData().mode) {
+	case 1:
+		//Normal
+
+		break;
+	case 2:
+		//Hard
+
+		break;
+	case 3:
+		//DataScience
+
+		const Array<MoveKind> options =
+		{
+			MoveKind::LeftRight,
+			MoveKind::MoveAround,
+		};
+
+		// 選択肢に対応する確率分布
+		// （LeftRight は MoveAround よりも 2 倍出やすい）
+		DiscreteDistribution distribution(
+		{
+			2,
+			1,
+		});
+
+		for (int i = 0; i < 10; i++) {
+			KindM = DiscreteSample(options, distribution);
+			time = 0 + i * 3;
+			add(KindM, time);
+		}
+		break;
+	}
+
 	//要素を入れる
 	//windows << std::make_unique<追加したい要素のクラス名>(Vec2{初期のx座標,初期のy座標},Vec2{初期の幅,初期の高さ},初期のバツ印の一片の長さ,何秒後に出現するか);
-	windows << std::make_unique<WindowLeftRight>(Vec2{ 100, 100 }, Vec2{ 100, 100 }, 10,5);
-	windows << std::make_unique<WindowMoveAround>(Vec2{ 400, 400 }, Vec2{ 50, 50 }, 10,0);
+	//windows << std::make_unique<WindowLeftRight>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50,5);
+	//windows << std::make_unique<WindowMoveAround>(Vec2{ 400, 400 }, Vec2{ 200, 150 }, 50,0);
 	//windows << std::make_unique<WindowMoveAround>(Vec2{ 400, 400 }, Vec2{ 50, 50 }, 10, 30);
 	//windows << std::make_unique<WindowXXX>(Vec2{ 20, 20 }, Vec2{ 200, 200 }, 10, 0);
 	//windows << std::make_unique<WindowXXX>(Vec2{ 120, 20 }, Vec2{ 200, 200 }, 10, 3);
@@ -39,47 +72,84 @@ void Game::update() {
 		}
 	}
 
-	if (4 < stopwatch.sF()) {
+	if (4.1 < stopwatch.sF()) {
 		flagStart = true;
 		BaseWindow::timeStart();
 	}
 
-	//ウィンドウ更新
-	for (const auto& w : windows) {
-		w->update(Scene::DeltaTime());
+	if (3.3 < stopwatch.sF() && !flagEnd) {
+		AudioAsset(U"PlayBGM").play();
 	}
+
+	//ウィンドウ更新
+	if (!flagEnd) {
+		//trueになおす
+		BaseWindow::SetNotAllClicked();
+		for (const auto& w : windows) {
+			//更新
+			w->update(Scene::DeltaTime());
+
+			//ゲームオーバー判定
+			if (w->getIsClickedAd()) {
+				flagEnd = true;
+			}
+		}
+		//ゲームオーバー判定(後できれいにしたい...)
+		if (BaseWindow::getIsNotAllClicked() == false) {
+			flagEnd = false;
+		}
+
+	}
+
+	//ゲームオーバー時処理
+	if (flagEnd) {
+		AudioAsset(U"PlayBGM").stop();
+		BaseWindow::timeStop();
+
+	}
+
 	//要素の削除&メモリの解放
-	windows.remove_if([](const auto& w) {return w->getIsClick(); });
+	windows.remove_if([](const auto& w) {return w->getIsClicked(); });
+}
+
+void Game::add(MoveKind k, int time) {
+	switch (k) {
+	case MoveKind::LeftRight:
+		windows << std::make_unique<WindowLeftRight>(Vec2{ 400, 400 }, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::MoveAround:
+		windows << std::make_unique<WindowMoveAround>(Vec2{ 400, 400 }, Vec2{ 200, 150 }, 50, time);
+		break;
+	}
 }
 
 void Game::draw() const {
 
-
-	
-	//通常
-	//拡大
-	//scaled(0.742).drawAt(Scene::Size().x/2,Scene::Size().y/2+98);
-	//TextureAsset(U"BackGround").scaled(0.742).drawAt(Scene::Size().x / 2, Scene::Size().y / 2 + 98);
 	TextureAsset(U"BackGround").scaled(scale).drawAt(pos);
 
 	if (flagStart == false && flagDoneMove) {
-	
 		if (stopwatch.sF() < 1) {
-			FontAsset(U"CountDown")(U"３").drawAt(Scene::Size() / 2,ColorF{0,0,0});
+			AudioAsset(U"CountDown").play();
 		}
-		else if(stopwatch.sF() < 2) {
-			FontAsset(U"CountDown")(U"２").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
-		}
-		else if (stopwatch.sF() < 3) {
-			FontAsset(U"CountDown")(U"１").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
-		}
-		else if (stopwatch.sF() < 4) {
-			FontAsset(U"CountDown")(U"スタート！").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
-		}
-		else {
-			
+		if (0.1 < stopwatch.sF()) {
+			if (stopwatch.sF() < 1.1) {
+				FontAsset(U"CountDown")(U"３").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
+			}
+			else if (stopwatch.sF() < 2.1) {
+				FontAsset(U"CountDown")(U"２").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
+			}
+			else if (stopwatch.sF() < 3.1) {
+				FontAsset(U"CountDown")(U"１").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
+			}
+			else if (stopwatch.sF() < 4.1) {
+				FontAsset(U"CountDown")(U"スタート！").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
+			}
+			else {
+
+			}
 		}
 	}
+
 
 	if (flagStart) {
 		for (const auto& w : windows) {
