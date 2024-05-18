@@ -4,12 +4,18 @@
 #include "WindowMoveAround.h"
 #include "WindowXXX.h"
 
+enum class MoveKind {
+	LeftRight,
+	MoveAround,
+};
+
 class Game : public App::Scene
 {
 public:
 	Game(const InitData& init);
 	void update() override;
 	void draw() const override;
+	void add(MoveKind k, int time);
 
 private:
 	//ユニークポインタの配列を作成
@@ -40,5 +46,14 @@ private:
 	bool flagDoneMove = false;;
 	//ゲームオーバーフラグ
 	bool flagEnd = false;
+	//動きの種類
+	MoveKind KindM;
+	//出現するタイミング(DS用)
+	int time=0;
+	//バツがクリックされていないかどうか
+	bool batuNotClicked = true;
+
+
+
 };
 
