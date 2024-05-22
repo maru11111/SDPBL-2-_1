@@ -147,7 +147,7 @@ void Game::update() {
 		// 削除数をカウント
 			numClickAd++;
 		//バツをクリックしたときの音
-			if (numClickAd != 2) {
+			if (numClickAd != numAd) {
 				AudioAsset(U"BatuClick").setVolume(0.5).play();
 			}
 			else {
@@ -160,7 +160,7 @@ void Game::update() {
 	windows.remove_if([](const auto& w) {return w->getIsClicked(); });
 
 	//クリア時
-	if (numClickAd == 2 /*numAd*/) {
+	if (numClickAd == numAd) {
 		if (flagHit == false) {
 			AudioAsset(U"PlayBGM").stop();
 			stopwatch.restart();
@@ -269,7 +269,7 @@ void Game::draw() const {
 		}
 	}
 	//クリア時
-	if (numClickAd == 2 /*numAd*/) {
+	if (numClickAd == numAd) {
 		if (1.5 < stopwatch.sF()) {
 			FontAsset(U"Clear")(U"クリア").drawAt(posFontGameOver, ColorF(0, 0, 0, opacityG));
 			rect.draw(ColorF(0, 0, 0, 0.5));
