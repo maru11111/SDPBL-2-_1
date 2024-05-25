@@ -2,12 +2,11 @@
 #include "Common.h"
 #include "WindowLeftRight.h"
 #include "WindowMoveAround.h"
-#include "WindowXXX.h"
-
-enum class MoveKind {
-	LeftRight,
-	MoveAround,
-};
+#include "WindowOpacity.h"
+#include "WindowKasoku.h"
+#include "WindowCircle.h"
+#include "WindowBatuMove.h"
+#include "WindowTousoku.h"
 
 class Game : public App::Scene
 {
@@ -17,6 +16,7 @@ public:
 	void update() override;
 	void draw() const override;
 	void add(MoveKind k, int time);
+
 
 private:
 	//ユニークポインタの配列を作成
@@ -73,6 +73,8 @@ private:
 	int numClickAd = 0;
 	//クリアしたか
 	bool flagClear = false;
-	//
+	//踏んでしまった広告の動き
+	MoveKind ClickMoveKind;
 	bool flag1=false;
+
 };
