@@ -321,8 +321,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Title.h" />
+    <ClInclude Include="WindowBatuMove.h" />
+    <ClInclude Include="WindowCircle.h" />
+    <ClInclude Include="WindowKasoku.h" />
     <ClInclude Include="WindowLeftRight.h" />
     <ClInclude Include="WindowMoveAround.h" />
+    <ClInclude Include="WindowOpacity.h" />
+    <ClInclude Include="WindowTousoku.h" />
     <ClInclude Include="WIndowXXX.h" />
   </ItemGroup>
   <ItemGroup>
