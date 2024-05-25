@@ -8,7 +8,9 @@ public:
 	//コンストラクタ
 	WindowLeftRight(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime)
 		: BaseWindow(windowPos, windowSize, batuSize, startTime)
-	{}
+	{
+		moveKind = MoveKind::LeftRight;
+	}
 
 	//行動
 	void act() override {

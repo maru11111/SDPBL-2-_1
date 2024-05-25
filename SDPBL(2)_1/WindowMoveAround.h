@@ -8,7 +8,9 @@ public:
 	//コンストラクタ
 	WindowMoveAround(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime)
 		 : BaseWindow(windowPos, windowSize, batuSize, startTime)
-	{}
+	{
+		moveKind = MoveKind::MoveAround;
+	}
 
 
 	//行動
