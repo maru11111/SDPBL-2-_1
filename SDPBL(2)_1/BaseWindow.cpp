@@ -4,18 +4,21 @@ BaseWindow::BaseWindow(Vec2 windowPos, Vec2 windowSize, double batuSize, double 
 	:m_window(windowPos, windowSize),
 	m_batu(windowPos + Vec2(windowSize.x - batuSize, 0), batuSize),
 	m_startTime(startTime)
-{}
+
+{
+
+}
 
 void BaseWindow::timeReset() {
-	m_time.reset();
+	m_timeS.reset();
 }
 
 void BaseWindow::timeStart() {
-	m_time.start();
+	m_timeS.start();
 }
 
 void BaseWindow::timeStop() {
-	m_time.pause();
+	m_timeS.pause();
 }
 
 void BaseWindow::move(double dt) {
@@ -72,28 +75,49 @@ AdKind BaseWindow::getKindPop() {
 	return kindPop;
 }
 
+MoveKind BaseWindow::getMoveKind() {
+	return moveKind;
+}
+
+double BaseWindow::getTime() {
+	return m_time.sF();
+}
+
+void BaseWindow::flagFreqT() {
+	flagFreq = true;
+}
+
+bool BaseWindow::getFlagFreq() {
+	return flagFreq;
+}
+
 void BaseWindow::update(double dt) {
 	//Print << U"m_startTime=" << m_startTime;
 	
-	if (m_startTime < m_time.sF()) {
+	if (m_startTime < m_timeS.sF()) {
+
+		if (!flagTimer) {
+			m_time.start();
+			flagTimer = true;
+		}
 
 		isClick();
 		isClickAd();
 		setPopKind();
-		act();
+		act();	
 		move(dt);
-
+		//move_batu(dt);
 	}
 	//Print << m_AllBatuNotClicked;
-	//Print << m_time;
+	//Print << m_timeS;
 	//Print << (int)AdKind();
 }
 
 void BaseWindow::draw() {
-	//Print << U"m_startTime < m_time.sF()=" << (m_startTime < m_time.sF());
+	//Print << U"m_startTime < m_timeS.sF()=" << (m_startTime < m_timeS.sF());
 	//Print << m_startTime;
-	//Print << m_time.sF();
-	if (m_startTime < m_time.sF()) {
+	//Print << m_timeS.sF();
+	if (m_startTime < m_timeS.sF()) {
 		
 		switch (kind) {
 		case AdKind::Anna:
@@ -169,7 +193,7 @@ void BaseWindow::drawPop(double dt) {
 	}
 }
 
-Stopwatch BaseWindow::m_time;
+Stopwatch BaseWindow::m_timeS;
 bool BaseWindow::m_AllBatuNotClicked = true;
 AdKind BaseWindow::kindPop=AdKind::Anna;
 double BaseWindow::m_opacityP=0;

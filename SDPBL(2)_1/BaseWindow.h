@@ -17,7 +17,7 @@ public:
 	virtual void act() = 0;
 
 	//広告を動かす関数
-	void move(double dt);
+	virtual void move(double dt);
 
 	//バツ印がクリックされたかどうか判定
 	void isClick();
@@ -56,6 +56,18 @@ public:
 	//getkindPop
 	static AdKind getKindPop();
 
+	//広告の動きを取得
+	MoveKind getMoveKind();
+
+	//広告が出現してからの経過時間を取得
+	double getTime();
+
+
+	//FlagFleqを更新
+	void flagFreqT();
+	//FlagFleqを取得
+	bool getFlagFreq();
+
 protected:
 	//広告の図形
 	RectF m_window, m_batu;
@@ -72,7 +84,7 @@ protected:
 	//広告がクリックされたかどうか
 	bool m_beClickAd = false;
 	//経過時間
-	static Stopwatch m_time;
+	static Stopwatch m_timeS;
 	//開始時間
 	double m_startTime;
 	//初期設定用フラグ
@@ -89,6 +101,15 @@ protected:
 	static AdKind kindPop;
 	//踏んでしまった広告の不透明度
 	static double m_opacityP;
+	//動きの種類
+	MoveKind moveKind;
+	//オブジェクトごとの経過時間
+	Stopwatch m_time;
+	//オブジェクトの頻度増加フラグ
+	bool flagFreq=false;
+	//タイマー開始フラグ
+	bool flagTimer=false;
+
 	//画像ファイル
 	Texture s{ U"setagayacampus_05.jpg" };
 	VideoTexture v{ U"SDPBL(2).mp4" };
