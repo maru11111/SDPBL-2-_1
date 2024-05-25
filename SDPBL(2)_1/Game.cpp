@@ -6,6 +6,11 @@ Game::Game(const InitData& init)
 	switch (getData().mode) {
 	case 1:
 		//Normal
+		windows << std::make_unique<WindowOpacity>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 0);
+		windows << std::make_unique<WindowKasoku>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 3);
+		windows << std::make_unique<WindowCircle>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 6);
+		windows << std::make_unique<WindowBatuMove>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 10, 0);
+		windows << std::make_unique<WindowTousoku>(Vec2{ 200, 100 }, Vec2{ 150, 100 }, 10, 0);
 
 		break;
 	case 2:
@@ -19,14 +24,23 @@ Game::Game(const InitData& init)
 		{
 			MoveKind::LeftRight,
 			MoveKind::MoveAround,
+			MoveKind::Opacity,
+			MoveKind::Kasoku,
+			MoveKind::Circle,
+			MoveKind::BatuMove,
+			MoveKind::Tousoku,
 		};
 
 		// 選択肢に対応する確率分布
-		// （LeftRight は MoveAround よりも 2 倍出やすい）
 		DiscreteDistribution distribution(
 		{
-			2,
-			1,
+			getData().numFreq[(int)MoveKind::LeftRight],
+			getData().numFreq[(int)MoveKind::MoveAround],
+			getData().numFreq[(int)MoveKind::Opacity],
+			getData().numFreq[(int)MoveKind::Kasoku],
+			getData().numFreq[(int)MoveKind::Circle],
+			getData().numFreq[(int)MoveKind::BatuMove],
+			getData().numFreq[(int)MoveKind::Tousoku],
 		});
 
 		for (int i = 0; i < numAd; i++) {
@@ -51,11 +65,15 @@ Game::Game(const InitData& init)
 
 Game::~Game() {
 	BaseWindow::timeReset();
+	getData().saveNumFreq();
 }
 
 void Game::update() {
 	ClearPrint();
 
+	for (int i = 0; i < (int)MoveKind::Num; i++) {
+		Print << getData().numFreq[i];
+	}
 	if (flagDoneMove == false) {
 		//Print << pos;
 		// 移動の割合 0.0～1.0
@@ -94,13 +112,32 @@ void Game::update() {
 		for (const auto& w : windows) {
 			//更新
 			w->update(Scene::DeltaTime());
+			//出現確率更新
+			//もし6秒以上消されていなかったら
+			if (6 < w->getTime()&& !w->getFlagFreq()) {
+				//頻度を上げる
+				getData().numFreq[(int)w->getMoveKind()] += 0.25;
+				//一つのオブジェクトで一度だけ更新
+				w->flagFreqT();
+			}
+			//もし1秒以内に消されていたら
+			if (w->getIsClicked() && w->getTime() < 2) {
+				//頻度が1より大きいか
+				if ( 1<(int)w->getMoveKind() ) {
+					//頻度を下げる
+					getData().numFreq[(int)w->getMoveKind()] -= 0.25;
+				}
+			}
 
 			//ゲームオーバー判定
 			if (w->getIsClickedAd()) {
 				flagEnd = true;
+				//クリックしてしまった広告の動きを取得
+				ClickMoveKind = w->getMoveKind();
 			}
 		}
 		//ゲームオーバー判定(後できれいにしたい...)
+		//もしバツを消していればゲームオーバーを撤回
 		if (BaseWindow::getIsNotAllClicked() == false) {
 			flagEnd = false;
 		}
@@ -117,6 +154,8 @@ void Game::update() {
 			stopwatch.restart();
 			fromP = rect.pos;
 			toP = rect.pos + Vec2(-rect.w, 0);
+			//踏んでしまった広告の出る頻度を上げる
+			getData().numFreq[(int)ClickMoveKind] += 0.5;
 		}
 		if (2 < stopwatch.sF()) {
 			if (flagSkip == false) {
@@ -207,10 +246,25 @@ void Game::update() {
 void Game::add(MoveKind k, int time) {
 	switch (k) {
 	case MoveKind::LeftRight:
-		windows << std::make_unique<WindowLeftRight>(Vec2{ 400, 400 }, Vec2{ 200, 150 }, 50, time);
+		windows << std::make_unique<WindowLeftRight>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width()-200, Scene::Height()-150}) }, Vec2{ 200, 150 }, 50, time);
 		break;
 	case MoveKind::MoveAround:
-		windows << std::make_unique<WindowMoveAround>(Vec2{ 400, 400 }, Vec2{ 200, 150 }, 50, time);
+		windows << std::make_unique<WindowMoveAround>(Vec2{ RandomVec2(Rect{0,0,Scene::Width() - 200, Scene::Height() - 150}) }, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Opacity:
+		windows << std::make_unique<WindowOpacity>(Vec2{ RandomVec2(Rect{0,0,Scene::Width() - 200, Scene::Height() - 150} )}, Vec2{200, 150}, 50, time);
+		break;
+	case MoveKind::Kasoku:
+		windows << std::make_unique<WindowKasoku>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width() - 200, Scene::Height() - 150}) }, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Circle:
+		windows << std::make_unique<WindowCircle>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width() - 200 -150, Scene::Height() - 150 -200}) }, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::BatuMove:
+		windows << std::make_unique<WindowBatuMove>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width() - 200, Scene::Height() - 150}) }, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Tousoku:
+		windows << std::make_unique<WindowTousoku>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width() - 200, Scene::Height() - 150}) }, Vec2{ 200, 150 }, 50, time);
 		break;
 	}
 }
@@ -277,5 +331,5 @@ void Game::draw() const {
 		}
 	}
 
-	FontAsset(U"Num")(U"💥: ",numClickAd, U"/",numAd).draw(10,10,ColorF(0,0,0));
+	FontAsset(U"Num")(U"撃破数: ",numClickAd, U"/",numAd).draw(10,10,ColorF(0,0,0));
 }
