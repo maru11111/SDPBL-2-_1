@@ -11,11 +11,6 @@ Title::Title(const InitData& init)
 
 void Title::update() {
 
-	//保存
-	if (KeyS.down()) {
-		getData().saveNumFreq();
-	}
-
 	//ゲームシーンへ移動
 	//if (KeyEnter.down()) {
 	//	changeScene(State::Game, 0.5s);
