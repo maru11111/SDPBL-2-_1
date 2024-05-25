@@ -15,13 +15,16 @@ void Main()
 	TextureAsset::Register(U"Hair", U"image/hair.jpg");
 	TextureAsset::Register(U"MatchingApp", U"image/matching.png");
 	TextureAsset::Register(U"QuickCatch", U"image/quick.png");
-	
+	TextureAsset::Register(U"Title", U"image/title7.png");
+
 	FontAsset::Register(U"CountDown", 100, U"font/keifont.ttf");
 	FontAsset::Register(U"Title", 75, U"font/keifont.ttf");
 	FontAsset::Register(U"Skip", 50, U"font/keifont.ttf");
 	FontAsset::Register(U"GameOver", 100, U"font/keifont.ttf");
 	FontAsset::Register(U"Num",50, U"font/keifont.ttf");
 	FontAsset::Register(U"Clear", 100, U"font/keifont.ttf");
+	FontAsset::Register(U"Stage", 50, U"font/keifont.ttf");
+	FontAsset::Register(U"StageDS", 40, U"font/keifont.ttf");
 
 	AudioAsset::Register(U"CountDown", U"audio/ピッピッピー.wav");
 	AudioAsset::Register(U"PlayBGM", U"audio/大慌て.mp3", Loop::Yes);
