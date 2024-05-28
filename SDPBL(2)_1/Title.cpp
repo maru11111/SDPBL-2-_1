@@ -75,5 +75,4 @@ void Title::draw()const {
 	{
 		getData().dataReset();
 	}
-	/*test*/
 }
