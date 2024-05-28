@@ -3,11 +3,11 @@
 BaseWindow::BaseWindow(Vec2 windowPos, Vec2 windowSize, double batuSize, double startTime)
 	:m_window(windowPos, windowSize),
 	m_batu(windowPos + Vec2(windowSize.x - batuSize, 0), batuSize),
-	m_startTime(startTime)
-
-{
-
-}
+	m_startTime(startTime),
+	resourcePath(Resource(U"video/christmas.mp4")),
+	temporaryFilePath(FileSystem::TemporaryDirectoryPath() + U"MyApp/christmas.mp4"),
+	christmas(LoadVideoFromResource(resourcePath, temporaryFilePath, Loop::Yes))
+{}
 
 void BaseWindow::timeReset() {
 	m_timeS.reset();
