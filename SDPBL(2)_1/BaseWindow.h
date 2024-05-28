@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Common.h"
+#include "LoadVideo.h"
 
 class BaseWindow {
 public:
@@ -113,7 +114,10 @@ protected:
 	//画像ファイル
 	Texture s{ U"setagayacampus_05.jpg" };
 	VideoTexture v{ U"SDPBL(2).mp4" };
-	VideoTexture christmas{ U"image/christmas.mp4" };
+	//VideoTexture christmas{ U"video/christmas.mp4" };
+	const FilePath resourcePath;
+	const FilePath temporaryFilePath;
+	const VideoTexture christmas;
 	Texture debug{ U"image/haikei.png" };
 
 };
