@@ -1,10 +1,13 @@
 ﻿#include "Game.h"
 
 Game::Game(const InitData& init)
-	: IScene{ init }
+	: IScene{ init },
+	resourcePath(Resource(U"video/christmas.mp4")),
+	temporaryFilePath(FileSystem::TemporaryDirectoryPath() + U"MyApp/christmas.mp4"),
+	christmas(LoadVideoFromResource(resourcePath, temporaryFilePath, Loop::Yes))
 {
 	switch (getData().mode) {
-	case 1:
+	case 0:
 		//Normal
 		windows << std::make_unique<WindowOpacity>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 0);
 		windows << std::make_unique<WindowKasoku>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 3);
@@ -13,11 +16,11 @@ Game::Game(const InitData& init)
 		windows << std::make_unique<WindowTousoku>(Vec2{ 200, 100 }, Vec2{ 150, 100 }, 10, 0);
 
 		break;
-	case 2:
+	case 1:
 		//Hard
 
 		break;
-	case 3:
+	case 2:
 		//DataScience
 
 		const Array<MoveKind> options =
