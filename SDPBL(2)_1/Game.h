@@ -7,6 +7,7 @@
 #include "WindowCircle.h"
 #include "WindowBatuMove.h"
 #include "WindowTousoku.h"
+#include "LoadVideo.h"
 
 class Game : public App::Scene
 {
@@ -56,7 +57,10 @@ private:
 	//Hitを一度だけ鳴らすための変数
 	bool flagHit=false;
 	//動画(よくない
-	VideoTexture christmas{ U"image/christmas.mp4" };
+	//VideoTexture christmas{ Resource(U"video/christmas.mp4") };
+	const FilePath resourcePath;
+	const FilePath temporaryFilePath;
+	const VideoTexture christmas;
 	//広告をスキップ図形
 	RectF rect{ Scene::Size().x,Scene::Size().y-114,300,70 };
 	//広告をスキップ用stopwatch
