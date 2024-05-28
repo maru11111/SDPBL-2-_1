@@ -362,9 +362,10 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Appフォルダ内でexe,data以外のものを除外
+# App以下を除外
 App/
 
+data/
 
 
 /SDPBL(2)_1/App/SDPBL(2)_1(debug.exe
