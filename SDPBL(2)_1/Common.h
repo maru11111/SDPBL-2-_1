@@ -17,6 +17,7 @@ enum class MoveKind {
 	Circle,
 	BatuMove,
 	Tousoku,
+	Hansya,
 	Num,
 };
 
@@ -59,7 +60,7 @@ struct GameData
 		numFreq[(int)MoveKind::Circle] = json[U"Circle"].get<double>();
 		numFreq[(int)MoveKind::BatuMove] = json[U"BatuMove"].get<double>();
 		numFreq[(int)MoveKind::Tousoku] = json[U"Tousoku"].get<double>();
-
+		numFreq[(int)MoveKind::Hansya] = json[U"Hansya"].get<double>();
 	}
 
 	void saveNumFreq() {
@@ -72,6 +73,7 @@ struct GameData
 		json[U"Circle"] = numFreq[(int)MoveKind::Circle];
 		json[U"BatuMove"] = numFreq[(int)MoveKind::BatuMove];
 		json[U"Tousoku"] = numFreq[(int)MoveKind::Tousoku];
+		json[U"Hansya"] = numFreq[(int)MoveKind::Hansya];
 
 		json.save(U"data/data.json");
 	}
@@ -84,6 +86,9 @@ struct GameData
 		numFreq[(int)MoveKind::Circle] = 1, 0;
 		numFreq[(int)MoveKind::BatuMove] = 1.0;
 		numFreq[(int)MoveKind::Tousoku] = 1.0;
+		numFreq[(int)MoveKind::Hansya] = 1.0;
+
+		saveNumFreq();
 	}
 };
 
