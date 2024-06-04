@@ -16,6 +16,7 @@ void Main()
 	TextureAsset::Register(U"MatchingApp", Resource(U"image/matching.png"));
 	TextureAsset::Register(U"QuickCatch", Resource(U"image/quick.png"));
 	TextureAsset::Register(U"Title", Resource(U"image/title7.png"));
+	TextureAsset::Register(U"Batu", Resource(U"image/redBatu.png"));
 
 	FontAsset::Register(U"CountDown", 100, Resource(U"font/keifont.ttf"));
 	FontAsset::Register(U"Title", 75, Resource(U"font/keifont.ttf"));
@@ -25,7 +26,6 @@ void Main()
 	FontAsset::Register(U"Clear", 100, Resource(U"font/keifont.ttf"));
 	FontAsset::Register(U"Stage", 50, Resource(U"font/keifont.ttf"));
 	FontAsset::Register(U"StageDS", 40, Resource(U"font/keifont.ttf"));
-
 	AudioAsset::Register(U"CountDown", Resource(U"audio/ピッピッピー.wav"));
 	AudioAsset::Register(U"PlayBGM", Resource(U"audio/大慌て.mp3"), Loop::Yes);
 	AudioAsset::Register(U"Hit", Resource(U"audio/damage.mp3"));
