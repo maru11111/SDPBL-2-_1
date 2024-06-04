@@ -6,6 +6,7 @@ Game::Game(const InitData& init)
 	temporaryFilePath(FileSystem::TemporaryDirectoryPath() + U"MyApp/christmas.mp4"),
 	christmas(LoadVideoFromResource(resourcePath, temporaryFilePath, Loop::Yes))
 {
+
 	switch (getData().mode) {
 	case 0:
 		//Normal
@@ -32,6 +33,7 @@ Game::Game(const InitData& init)
 			MoveKind::Circle,
 			MoveKind::BatuMove,
 			MoveKind::Tousoku,
+			MoveKind::Hansya,
 		};
 
 		// 選択肢に対応する確率分布
@@ -44,6 +46,7 @@ Game::Game(const InitData& init)
 			getData().numFreq[(int)MoveKind::Circle],
 			getData().numFreq[(int)MoveKind::BatuMove],
 			getData().numFreq[(int)MoveKind::Tousoku],
+			getData().numFreq[(int)MoveKind::Hansya],
 		});
 
 		for (int i = 0; i < numAd; i++) {
@@ -72,11 +75,14 @@ Game::~Game() {
 }
 
 void Game::update() {
-	ClearPrint();
 
-	for (int i = 0; i < (int)MoveKind::Num; i++) {
-		Print << getData().numFreq[i];
-	}
+	ClearPrint();
+	//for (int i = 0; i < (int)MoveKind::Num; i++) {
+	//	Print << getData().numFreq[i];
+	//}
+
+	Print << stopwatch.sF();
+
 	if (flagDoneMove == false) {
 		//Print << pos;
 		// 移動の割合 0.0～1.0
@@ -99,7 +105,7 @@ void Game::update() {
 		}
 	}
 
-	if (4.1 < stopwatch.sF()) {
+	if (4.3 < stopwatch.sF()) {
 		flagStart = true;
 		BaseWindow::timeStart();
 	}
@@ -269,6 +275,9 @@ void Game::add(MoveKind k, int time) {
 	case MoveKind::Tousoku:
 		windows << std::make_unique<WindowTousoku>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width() - 200, Scene::Height() - 150}) }, Vec2{ 200, 150 }, 50, time);
 		break;
+	case MoveKind::Hansya:
+		windows << std::make_unique<WindowHansya>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width() - 200, Scene::Height() - 150}) }, Vec2{ 200, 150 }, 50, time);
+		break;
 	}
 }
 
@@ -277,20 +286,21 @@ void Game::draw() const {
 	TextureAsset(U"BackGround").scaled(scale).drawAt(pos);
 
 	if (flagStart == false && flagDoneMove) {
-		if (stopwatch.sF() < 1) {
+		if ( 0 < stopwatch.sF()) {
+			
 			AudioAsset(U"CountDown").play();
 		}
-		if (0.1 < stopwatch.sF()) {
-			if (stopwatch.sF() < 1.1) {
+		if (0.3 < stopwatch.sF()) {
+			if (stopwatch.sF() < 1.3) {
 				FontAsset(U"CountDown")(U"３").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
 			}
-			else if (stopwatch.sF() < 2.1) {
+			else if (stopwatch.sF() < 2.3) {
 				FontAsset(U"CountDown")(U"２").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
 			}
-			else if (stopwatch.sF() < 3.1) {
+			else if (stopwatch.sF() < 3.3) {
 				FontAsset(U"CountDown")(U"１").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
 			}
-			else if (stopwatch.sF() < 4.1) {
+			else if (stopwatch.sF() < 4.3) {
 				FontAsset(U"CountDown")(U"スタート！").drawAt(Scene::Size() / 2, ColorF{ 0,0,0 });
 			}
 			else {

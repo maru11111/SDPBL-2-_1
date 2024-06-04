@@ -8,6 +8,7 @@
 #include "WindowBatuMove.h"
 #include "WindowTousoku.h"
 #include "LoadVideo.h"
+#include "WindowHansya.h"
 
 class Game : public App::Scene
 {
