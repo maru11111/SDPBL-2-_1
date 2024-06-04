@@ -81,7 +81,7 @@ void Game::update() {
 	//	Print << getData().numFreq[i];
 	//}
 
-	Print << stopwatch.sF();
+	//Print << stopwatch.sF();
 
 	if (flagDoneMove == false) {
 		//Print << pos;
