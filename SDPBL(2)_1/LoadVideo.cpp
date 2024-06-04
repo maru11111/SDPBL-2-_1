@@ -5,7 +5,7 @@ VideoTexture LoadVideoFromResource(const FilePathView resourcePath, const FilePa
 
 	if (not FileSystem::Exists(temporaryFilePath))
 	{
-		Print << U"ファイルをコピー";
+		//Print << U"ファイルをコピー";
 
 		BinaryReader reader{ resourcePath };
 
@@ -29,7 +29,7 @@ VideoTexture LoadVideoFromResource(const FilePathView resourcePath, const FilePa
 	}
 	else
 	{
-		Print << U"キャッシュが存在";
+		//Print << U"キャッシュが存在";
 	}
 
 	return VideoTexture{ temporaryFilePath, loop };
