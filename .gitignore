@@ -363,10 +363,15 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # App以下を除外
-App/
-
-data/
-
-
-/SDPBL(2)_1/App/SDPBL(2)_1(debug.exe
-/SDPBL(2)_1/App/data/data.json
+As_DEBUG/
+audio/
+dll/
+engine/
+example/
+font/
+image/
+video/
+gitattributes
+icon.ico
+RCa09204
+Resource.rc
