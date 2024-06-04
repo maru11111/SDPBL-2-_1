@@ -59,3 +59,4 @@
 #*.RTF   diff=astextplain
 SDPBL(2)_1/App/SDPBL(2)_1(debug).exe filter=lfs diff=lfs merge=lfs -text
 SDPBL(2)_1(debug).exe filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
