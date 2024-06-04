@@ -110,6 +110,8 @@ protected:
 	bool flagFreq=false;
 	//タイマー開始フラグ
 	bool flagTimer=false;
+	//グラフィック上のバツの大きさ
+	double batuScaleG = 0.1;
 
 	//画像ファイル
 	Texture s{ U"setagayacampus_05.jpg" };

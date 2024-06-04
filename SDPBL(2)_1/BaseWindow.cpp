@@ -151,7 +151,16 @@ void BaseWindow::draw() {
 		default:
 			break;
 		}
-		m_batu.scaled(m_size).draw(ColorF{ 1,0,0,m_opacity });
+		//m_batu.scaled(m_size).draw(ColorF{ 1,0,0,m_opacity });
+		//TextureAsset(U"Batu").scaled(0.5).drawAt(m_window.x + m_window.w - TextureAsset(U"Batu").size().x, m_window.y + TextureAsset(U"Batu").size().y);
+
+		if (moveKind == MoveKind::BatuMove) {
+			TextureAsset(U"Batu").scaled(batuScaleG).drawAt(m_batu.x + m_batu.w/2 , m_batu.y + m_batu.h/2 , ColorF(1, 1, 1, m_opacity));
+		}
+		else{
+			TextureAsset(U"Batu").scaled(batuScaleG).draw(m_window.x + m_window.w - TextureAsset(U"Batu").size().x * batuScaleG, m_window.y, ColorF(1, 1, 1, m_opacity));
+		}
+
 	}
 }
 
