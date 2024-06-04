@@ -325,6 +325,7 @@
     <ClInclude Include="Title.h" />
     <ClInclude Include="WindowBatuMove.h" />
     <ClInclude Include="WindowCircle.h" />
+    <ClInclude Include="WIndowHansya.h" />
     <ClInclude Include="WindowKasoku.h" />
     <ClInclude Include="WindowLeftRight.h" />
     <ClInclude Include="WindowMoveAround.h" />
