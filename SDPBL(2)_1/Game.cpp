@@ -8,7 +8,7 @@ Game::Game(const InitData& init)
 {
 
 	switch (getData().mode) {
-	case 0:
+	case Mode::Normal:
 		//Normal
 		windows << std::make_unique<WindowOpacity>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 0);
 		windows << std::make_unique<WindowKasoku>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 3);
@@ -17,11 +17,11 @@ Game::Game(const InitData& init)
 		windows << std::make_unique<WindowTousoku>(Vec2{ 200, 100 }, Vec2{ 150, 100 }, 10, 0);
 
 		break;
-	case 1:
+	case Mode::Hard:
 		//Hard
 
 		break;
-	case 2:
+	case Mode::DS:
 		//DataScience
 
 		const Array<MoveKind> options =
@@ -183,7 +183,7 @@ void Game::update() {
 			rect.pos = fromP.lerp(toP, e);
 		}
 		if (8< stopwatch.sF()) {
-
+			
 			if (rect.leftClicked()) {
 				changeScene(State::Title);
 			}
