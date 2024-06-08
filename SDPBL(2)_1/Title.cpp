@@ -6,7 +6,11 @@ Title::Title(const InitData& init)
 	for (int i = 0; i < 3; i++) {
 		button << RectF{ 25 + 275 * i, Scene::Center().y + 100,200,120 };
 	}
+	
+}
 
+Title::~Title() {
+	AudioAsset(U"TitleBGM").stop();
 }
 
 void Title::update() {
@@ -15,15 +19,22 @@ void Title::update() {
 	//if (KeyEnter.down()) {
 	//	changeScene(State::Game, 0.5s);
 	//}
+
+	AudioAsset(U"TitleBGM").play();
+
+
 	if (button[0].leftClicked()) {
+		AudioAsset(U"Click").play();
 		getData().mode = 0;
 		changeScene(State::Game,0);
 	}
 	if (button[1].leftClicked()) {
+		AudioAsset(U"Click").play();
 		getData().mode = 1;
 		changeScene(State::Game,0);
 	}
 	if (button[2].leftClicked()) {
+		AudioAsset(U"Click").play();
 		getData().mode = 2;
 		changeScene(State::Game,0);
 	}
