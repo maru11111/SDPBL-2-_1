@@ -79,14 +79,10 @@ struct GameData
 	}
 
 	void dataReset() {
-		numFreq[(int)MoveKind::LeftRight] = 1.0;
-		numFreq[(int)MoveKind::MoveAround] = 1.0;
-		numFreq[(int)MoveKind::Opacity] = 1.0;
-		numFreq[(int)MoveKind::Kasoku] = 1.0;
-		numFreq[(int)MoveKind::Circle] = 1, 0;
-		numFreq[(int)MoveKind::BatuMove] = 1.0;
-		numFreq[(int)MoveKind::Tousoku] = 1.0;
-		numFreq[(int)MoveKind::Hansya] = 1.0;
+	
+		for (int i = 0; i < (int)MoveKind::Num; i++) {
+			numFreq[i] = 1.0;
+		}
 
 		saveNumFreq();
 	}
