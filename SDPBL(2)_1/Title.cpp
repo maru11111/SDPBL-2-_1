@@ -25,17 +25,17 @@ void Title::update() {
 
 	if (button[0].leftClicked()) {
 		AudioAsset(U"Click").play();
-		getData().mode = 0;
+		getData().mode = Mode::Normal;
 		changeScene(State::Game,0);
 	}
 	if (button[1].leftClicked()) {
 		AudioAsset(U"Click").play();
-		getData().mode = 1;
+		getData().mode = Mode::Hard;
 		changeScene(State::Game,0);
 	}
 	if (button[2].leftClicked()) {
 		AudioAsset(U"Click").play();
-		getData().mode = 2;
+		getData().mode = Mode::DS;
 		changeScene(State::Game,0);
 	}
 }
