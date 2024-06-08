@@ -97,7 +97,7 @@ protected:
 	//スイッチ
 	int m_flagS = 0;
 	//広告の種類
-	AdKind kind = (AdKind)Random(1,8);
+	AdKind kind = (AdKind)Random(0,0);
 	//踏んでしまった広告の種類
 	static AdKind kindPop;
 	//踏んでしまった広告の不透明度
