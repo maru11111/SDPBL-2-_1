@@ -30,13 +30,21 @@ enum class AdKind {
 	Christmas,
 	Hair,
 	MatchingApp,
-	QuickCatch
+	QuickCatch,
+	Num,
+};
+
+enum class Mode {
+	Normal,
+	Hard,
+	DS,
 };
 
 // 共有するデータ
 struct GameData
 {
-	int mode = 3;
+	Mode mode;
+
 	//広告の動きのでやすさ
 	double numFreq[(int)MoveKind::Num];
 
