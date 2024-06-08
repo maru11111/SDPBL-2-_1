@@ -5,7 +5,7 @@
 void Main()
 {
 	TextureAsset::Register(U"BackGround", Resource(U"image/haikei.png"));
-	TextureAsset::Register(U"Anna", Resource(U"image/SDPBL広告.png"));
+	TextureAsset::Register(U"Anna", Resource(U"image/anna.png"));
 	TextureAsset::Register(U"Azarashi", Resource(U"image/azarashi.png"));
 	TextureAsset::Register(U"BatuDarake", Resource(U"image/batu.png"));
 	TextureAsset::Register(U"Building", Resource(U"image/building.png"));
@@ -27,11 +27,14 @@ void Main()
 	FontAsset::Register(U"Stage", 50, Resource(U"font/keifont.ttf"));
 	FontAsset::Register(U"StageDS", 40, Resource(U"font/keifont.ttf"));
 	AudioAsset::Register(U"CountDown", Resource(U"audio/ピッピッピー.wav"));
-	AudioAsset::Register(U"PlayBGM", Resource(U"audio/大慌て.mp3"), Loop::Yes);
+	AudioAsset::Register(U"PlayBGM", Resource(U"audio/maou_bgm_8bit09.mp3"), Loop::Yes);
+	AudioAsset::Register(U"TitleBGM", Resource(U"audio/maou_bgm_8bit29.mp3"), Loop::Yes);
+	AudioAsset::Register(U"EndBGM", Resource(U"audio/maou_bgm_8bit20.mp3"), Loop::Yes);
 	AudioAsset::Register(U"Hit", Resource(U"audio/damage.mp3"));
 	AudioAsset::Register(U"GameOver", Resource(U"audio/GameOver.wav"));
 	AudioAsset::Register(U"BatuClick", Resource(U"audio/8bit獲得1.mp3"));
 	AudioAsset::Register(U"BatuClickLast", Resource(U"audio/8bit獲得6.mp3"));
+	AudioAsset::Register(U"Click", Resource(U"audio/8bit選択2.mp3"));
 	AudioAsset::Register(U"Clear", Resource(U"audio/ジャジャーン3.mp3"));
 
 	// 非同期ロードを開始
@@ -57,11 +60,14 @@ void Main()
 	FontAsset::LoadAsync(U"StageDS");
 
 	AudioAsset::LoadAsync(U"CountDown");
+	AudioAsset::LoadAsync(U"TitleBGM");
 	AudioAsset::LoadAsync(U"PlayBGM");
+	AudioAsset::LoadAsync(U"EndBGM");
 	AudioAsset::LoadAsync(U"Hit");
 	AudioAsset::LoadAsync(U"GameOver");
 	AudioAsset::LoadAsync(U"BatuClick");
 	AudioAsset::LoadAsync(U"BatuClickLast");
+	AudioAsset::LoadAsync(U"Click");
 	AudioAsset::LoadAsync(U"Clear");
 
 	//ウィンドウタイトルを変更
