@@ -169,7 +169,7 @@ void BaseWindow::drawPop(double dt) {
 	m_opacityP = 1;
 	switch (kindPop) {
 	case AdKind::Anna:
-		TextureAsset(U"Anna").scaled(1).drawAt(Scene::Center(), ColorF(1, 1, 1, m_opacityP));
+		TextureAsset(U"Anna").scaled(0.4).drawAt(Scene::Center(), ColorF(1, 1, 1, m_opacityP));
 		break;
 	case AdKind::Azarashi:
 		TextureAsset(U"Azarashi").scaled(0.44).drawAt(Scene::Center() + Vec2(0, 33), ColorF(1, 1, 1, m_opacityP));
