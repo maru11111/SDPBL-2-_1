@@ -18,7 +18,7 @@ public:
 	void update() override;
 	void draw() const override;
 	void add(MoveKind k, int time);
-
+	void add(MoveKind k, double x, double y, double time);
 
 private:
 	//ユニークポインタの配列を作成

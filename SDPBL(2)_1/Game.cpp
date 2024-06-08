@@ -10,15 +10,41 @@ Game::Game(const InitData& init)
 	switch (getData().mode) {
 	case Mode::Normal:
 		//Normal
-		windows << std::make_unique<WindowOpacity>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 0);
-		windows << std::make_unique<WindowKasoku>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 3);
-		windows << std::make_unique<WindowCircle>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 6);
-		windows << std::make_unique<WindowBatuMove>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 10, 0);
-		windows << std::make_unique<WindowTousoku>(Vec2{ 200, 100 }, Vec2{ 150, 100 }, 10, 0);
+		//windows << std::make_unique<WindowOpacity>(Vec2{ 100, 100 }, Vec2{ 150, 100 }, 50, 0);
+		add(MoveKind::LeftRight, 0);
+		add(MoveKind::MoveAround,5);
+		add(MoveKind::Tousoku,10);
+		add(MoveKind::Opacity,15);
+		add(MoveKind::BatuMove,20);
+		add(MoveKind::LeftRight,25);
+		add(MoveKind::MoveAround,30);
+		add(MoveKind::Tousoku,35);
+		add(MoveKind::Opacity,40);
+		add(MoveKind::BatuMove,45);
+		add(MoveKind::LeftRight, 50);
+		add(MoveKind::MoveAround, 55);
+		add(MoveKind::Tousoku, 60);
+		add(MoveKind::Opacity, 65);
+		add(MoveKind::BatuMove, 70);
 
 		break;
 	case Mode::Hard:
 		//Hard
+		add(MoveKind::Tousoku, 0);
+		add(MoveKind::Circle, 1.5);
+		add(MoveKind::Kasoku, 3);
+		add(MoveKind::Circle, 4.5);
+		add(MoveKind::Opacity, 6);
+		add(MoveKind::Circle, 7.5);
+		add(MoveKind::Hansya, 9);
+		add(MoveKind::Circle, 10.5);
+		add(MoveKind::Tousoku, 12);
+		add(MoveKind::Hansya, 13.5);
+		add(MoveKind::Kasoku, 15);
+		add(MoveKind::Hansya, 16.5);
+		add(MoveKind::Opacity, 18);
+		add(MoveKind::Hansya, 19.5);
+		add(MoveKind::Circle, 21);
 
 		break;
 	case Mode::DS:
@@ -82,6 +108,8 @@ void Game::update() {
 	//}
 
 	//Print << stopwatch.sF();
+
+	Print << (int)getData().mode;
 
 	if (flagDoneMove == false) {
 		//Print << pos;
@@ -277,6 +305,35 @@ void Game::add(MoveKind k, int time) {
 		break;
 	case MoveKind::Hansya:
 		windows << std::make_unique<WindowHansya>(Vec2{ RandomVec2(Rect{0, 0, Scene::Width() - 200, Scene::Height() - 150}) }, Vec2{ 200, 150 }, 50, time);
+		break;
+	}
+}
+
+void Game::add(MoveKind k, double x, double y, double time) {
+	switch (k) {
+	case MoveKind::LeftRight:
+		windows << std::make_unique<WindowLeftRight>(Vec2{x,y}, Vec2{200, 150}, 50, time);
+		break;
+	case MoveKind::MoveAround:
+		windows << std::make_unique<WindowMoveAround>(Vec2{x,y}, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Opacity:
+		windows << std::make_unique<WindowOpacity>(Vec2{x,y}, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Kasoku:
+		windows << std::make_unique<WindowKasoku>(Vec2{x,y}, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Circle:
+		windows << std::make_unique<WindowCircle>(Vec2{ x,y}, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::BatuMove:
+		windows << std::make_unique<WindowBatuMove>(Vec2{ x,y}, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Tousoku:
+		windows << std::make_unique<WindowTousoku>(Vec2{x,y}, Vec2{ 200, 150 }, 50, time);
+		break;
+	case MoveKind::Hansya:
+		windows << std::make_unique<WindowHansya>(Vec2{x,y}, Vec2{ 200, 150 }, 50, time);
 		break;
 	}
 }
