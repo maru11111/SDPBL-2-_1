@@ -386,7 +386,7 @@ void Game::draw() const {
 		}
 		if (stopwatch.sF() < 8) {
 			rect.draw(ColorF(0, 0, 0, 0.5));
-			FontAsset(U"Skip")(U"GaveOver ",8-(int)stopwatch.sF()).drawAt(rect.x + rect.w / 2, rect.y + rect.h / 2);
+			FontAsset(U"Skip")(U"GameOver ",8-(int)stopwatch.sF()).drawAt(rect.x + rect.w / 2, rect.y + rect.h / 2);
 		}else{
 			rect.draw(ColorF(0, 0, 0, 0.5));
 			FontAsset(U"Skip")(U"タイトルへ▶|").drawAt(rect.x+rect.w/2, rect.y+rect.h/2);
