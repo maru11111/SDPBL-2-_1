@@ -109,7 +109,7 @@ void Game::update() {
 
 	//Print << stopwatch.sF();
 
-	Print << (int)getData().mode;
+	//Print << (int)getData().mode;
 
 	if (flagDoneMove == false) {
 		//Print << pos;
